@@ -36,7 +36,6 @@ async function searchShows(query) {
 		const showObj = { id, name, summary, image };
 		resArr.push(showObj);
 	}
-	console.log(resArr);
 	return resArr;
 }
 
@@ -56,8 +55,10 @@ function populateShows(shows) {
            <div class="card-body">
              <h5 class="card-title">${show.name}</h5>
              <p class="card-text">${show.summary}</p>
-             <button type="button" class="btn btn-secondary" id="episodes-button">Episodes</button>
-           </div>
+             <form>        
+              <button class="btn btn-secondary" type="submit">Episodes</button>
+            </form>
+           </div>     
          </div>
        </div>
       `
@@ -128,3 +129,10 @@ function populateEpisodes(episodes) {
 
 	$episodesArea.show();
 }
+
+// Add event listener on Episodes buttons
+
+$('#shows-list').on('submit', function(e) {
+	e.preventDefault();
+	console.log('clicked episode button');
+});
