@@ -132,7 +132,10 @@ function populateEpisodes(episodes) {
 
 // Add event listener on Episodes buttons
 
-$('#shows-list').on('submit', function(e) {
+$('#shows-list').on('submit', async function(e) {
 	e.preventDefault();
-	console.log('clicked episode button');
+	let $id = $(e.target).closest('.Show').data('show-id');
+	let episodes = await getEpisodes($id);
+
+	populateEpisodes(episodes);
 });
