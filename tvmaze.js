@@ -41,7 +41,7 @@ async function searchShows(query) {
 }
 
 /** Populate shows list:
- *     - given list of shows, add shows to DOM
+ *     - given an array of shows, add shows to DOM
  */
 
 function populateShows(shows) {
@@ -56,7 +56,7 @@ function populateShows(shows) {
            <div class="card-body">
              <h5 class="card-title">${show.name}</h5>
              <p class="card-text">${show.summary}</p>
-             <button type="button" class="btn btn-secondary">Episodes</button>
+             <button type="button" class="btn btn-secondary" id="episodes-button">Episodes</button>
            </div>
          </div>
        </div>
@@ -104,4 +104,27 @@ async function getEpisodes(id) {
 	return resArr;
 }
 
-//Populate Episodes: Given list of episodes, add episodes to DOM
+//Populate Episodes: Given an array of episodes, add episodes to DOM
+
+function populateEpisodes(episodes) {
+	const $episodesArea = $('#episodes-area');
+	const $episodesList = $('#episodes-list');
+	$episodesList.empty();
+	for (let episode of episodes) {
+		let $details = $(
+			`<li>
+        <div class="col-md-6 col-lg-3 Show" data-show-id="${episode.id}">
+          <div class="card" data-show-id="${episode.id}">
+            <div class="card-body">
+              <h5 class="card-title">${episode.name}</h5>
+              <p class="card-text">Season: ${episode.season} Episode: ${episode.number}</p>
+            </div>
+          </div>
+        </div>
+      </li>`
+		);
+		$episodesList.append($details);
+	}
+
+	$episodesArea.show();
+}
