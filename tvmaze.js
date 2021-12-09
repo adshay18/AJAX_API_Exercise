@@ -31,12 +31,12 @@ async function searchShows(query) {
 		if (allData.image != null) {
 			image = allData.image.original;
 		} else {
-			image =
-				'https://images.unsplash.com/photo-1584905066893-7d5c142ba4e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80';
+			image = 'https://tinyurl.com/tv-missing';
 		}
 		const showObj = { id, name, summary, image };
 		resArr.push(showObj);
 	}
+	console.log(resArr);
 	return resArr;
 }
 
@@ -56,6 +56,7 @@ function populateShows(shows) {
            <div class="card-body">
              <h5 class="card-title">${show.name}</h5>
              <p class="card-text">${show.summary}</p>
+             <button type="button" class="btn btn-secondary">Episodes</button>
            </div>
          </div>
        </div>
@@ -88,9 +89,19 @@ $('#search-form').on('submit', async function handleSearch(evt) {
  *      { id, name, season, number }
  */
 
-// async function getEpisodes(id) {
-// 	// TODO: get episodes from tvmaze
-// 	//       you can get this by making GET request to
-// 	//       http://api.tvmaze.com/shows/SHOW-ID-HERE/episodes
-// 	// TODO: return array-of-episode-info, as described in docstring above
-// }
+async function getEpisodes(id) {
+	const episodes = await axios.get(`http://api.tvmaze.com/shows/${id}/episodes`);
+	const episodesArr = episodes.data;
+	const resArr = [];
+	for (let episode of episodesArr) {
+		const id = episode.id;
+		const name = episode.name;
+		const season = episode.season;
+		const number = episode.number;
+		const episodeObj = { id, name, season, number };
+		resArr.push(episodeObj);
+	}
+	return resArr;
+}
+
+//Populate Episodes: Given list of episodes, add episodes to DOM
